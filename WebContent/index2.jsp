@@ -17,9 +17,10 @@
 		ResourcePath.path = "/Users/galsang/Documents/eclipse/project/WebContent";
 		List<Pair<String,Character>> results = POIFinder.getInstance().findPOI(searchText);
 		List<Quadruple<Integer,Integer,String,Character>> positions = POIFinder.getInstance().findPosition(results, searchText);
+		Collections.sort(positions);
 		
 		System.out.println("searchText: "+ searchText);
-		System.out.println("result : " + results.size());
+		System.out.println("result : " + results.size() + results);
 		System.out.println("position : " + positions.size());
 		
 		searchCount = positions.size();
@@ -30,12 +31,14 @@
 			System.out.println(String.valueOf(start)+" "+String.valueOf(end));
 			String className = "poi_" + positions.get(i).fourth();
 			
-			searchTextFiltered += searchText.substring(beforeEnd, start+1);
-			searchTextFiltered += "<span class='poi "+className+"'>";
-			searchTextFiltered += searchText.substring(start+1,end);
-			searchTextFiltered += "</span>";
-			
-			beforeEnd = end;
+			if(beforeEnd <= start) {
+				searchTextFiltered += searchText.substring(beforeEnd, start);
+				searchTextFiltered += "<span class='poi "+className+"'>";
+				searchTextFiltered += searchText.substring(start,end);
+				searchTextFiltered += "</span>";
+				
+				beforeEnd = end;
+			}
 		}
 		if(beforeEnd < searchText.length()) searchTextFiltered += searchText.substring(beforeEnd);
 	}
