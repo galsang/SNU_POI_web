@@ -1,14 +1,43 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ page import="snu.poi.*" %>
+<%@ page import="java.util.*" %>
+<%@ page import="kr.co.shineware.util.common.model.Pair" %>
+<%@ page import="edu.stanford.nlp.util.Quadruple" %>
 <%
 	int mode = 0; //0: 입력 전, 1: 입력 결과 있을 때, 2: 입력 결과 없을 때
-	int searchCount = 1;
+	int searchCount = 0;
 	String searchText = "";
-
+	String searchTextFiltered = "";
+	
 	//parameter로 searchText가 들어왔는가에 따라 mode 결정
 	if(request.getParameter("searchText")!=null){
 		searchText = request.getParameter("searchText");
 		mode = 1;
+		
+		ResourcePath.path = "/Users/galsang/Documents/eclipse/project/WebContent";
+		List<Pair<String,Character>> results = POIFinder.getInstance().findPOI(searchText);
+		List<Quadruple<Integer,Integer,String,Character>> positions = POIFinder.getInstance().findPosition(results, searchText);
+		
+		System.out.println("searchText: "+ searchText);
+		System.out.println("result : " + results.size());
+		System.out.println("position : " + positions.size());
+		
+		searchCount = positions.size();
+		int beforeEnd = 0;
+		for(int i=0;i<searchCount;i++){
+			int start = positions.get(i).first();
+			int end = positions.get(i).second();
+			System.out.println(String.valueOf(start)+" "+String.valueOf(end));
+			String className = "poi_" + positions.get(i).fourth();
+			
+			searchTextFiltered += searchText.substring(beforeEnd, start+1);
+			searchTextFiltered += "<span class='poi "+className+"'>";
+			searchTextFiltered += searchText.substring(start+1,end);
+			searchTextFiltered += "</span>";
+			
+			beforeEnd = end;
+		}
+		if(beforeEnd < searchText.length()) searchTextFiltered += searchText.substring(beforeEnd);
 	}
 
 	if(searchCount == 0) mode = 2;
@@ -34,16 +63,65 @@
 		
 		<script type="text/javascript">
 			$(document).ready(function(){
-				$('.test').qtip({
-					content: {
-						text: "카테고리: 음식점"
-					},
-					style: {
-						classes: 'qtip-bootstrap'
-					}
+				$('.poi_A').qtip({
+					content: {text: "Arts & Entertainment"},
+					style: {classes: 'qtip-bootstrap'}
 				});
+				
+				$('.poi_C').qtip({
+					content: {text: "College & University"},
+					style: {classes: 'qtip-bootstrap'}
+				});
+				
+				$('.poi_E').qtip({
+					content: {text: "Event"},
+					style: {classes: 'qtip-bootstrap'}
+				});
+				
+				$('.poi_F').qtip({
+					content: {text: "Food"},
+					style: {classes: 'qtip-bootstrap'}
+				});
+				
+				$('.poi_N').qtip({
+					content: {text: "Nightlife Spot"},
+					style: {classes: 'qtip-bootstrap'}
+				});
+				
+				$('.poi_O').qtip({
+					content: {text: "Outdoors & Recreation"},
+					style: {classes: 'qtip-bootstrap'}
+				});
+				
+				$('.poi_P').qtip({
+					content: {text: "Nightlife Spot"},
+					style: {classes: 'qtip-bootstrap'}
+				});
+				
+				$('.poi_R').qtip({
+					content: {text: "Residence"},
+					style: {classes: 'qtip-bootstrap'}
+				});
+				
+				$('.poi_S').qtip({
+					content: {text: "Shop & Service"},
+					style: {classes: 'qtip-bootstrap'}
+				});
+				
+				$('.poi_T').qtip({
+					content: {text: "Travel & Transport"},
+					style: {classes: 'qtip-bootstrap'}
+				});
+				
+				$('.poi_U').qtip({
+					content: {text: "Unknown"},
+					style: {classes: 'qtip-bootstrap'}
+				});				
 			});
 		</script>
+		<style>
+			.poi {background-color: #F8E232}
+		</style>
 	</head>
 	<body>
 		<header style="height:100px"></header>
@@ -53,7 +131,7 @@
 			</div>
 			<form id="searchForm" action="index2.jsp?" method="GET">
 				<div style="margin-top:30px;">
-					<textarea name="searchText" rows="10" class="form-control" placeholder="문장을 입력하세요."></textarea>
+					<textarea name="searchText" rows="10" class="form-control" placeholder="문장을 입력하세요."><%= searchText %></textarea>
 					<button class="btn btn-info" aria-hidden="true" style="width: 30%; margin-top:20px;">Find!</button>
 				</div>
 			</form>	
@@ -76,9 +154,7 @@
  					<h3 class="panel-title">분석 결과</h3>
 				</div>
 				<div class="panel-body">
-					<%= searchText %>
- 					무서운 게, <span class="test" style="background-color: #F8E232">스타벅스</span> 로고는 진짜 저렇게 생겼다는 거죠.
-					양손에 들고 있는 저게 세이렌의 두갈래 꼬리 맞습니다...90년대 <span class="test" style="background-color: #F8E232">스벅</span> 로고를 검색해보세요...
+					<%= searchTextFiltered %>
 				</div>
 			</div>
 			<% } %>
