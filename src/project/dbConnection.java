@@ -40,7 +40,7 @@ public class dbConnection {
 		HashMap<String,String> result = new HashMap<String, String>();
 		
 		try {
-			String sql = "select * from poi_location where poi_id in (select id from poi_info where name = '"+searchText+"') limit 1";
+			String sql = "select * from poi_location where poi_id in (select id from poi_info where name like '"+searchText+"%') limit 1";
 			pstmt = conn.prepareStatement(sql);
 			//pstmt.setString(1,searchText);
 
@@ -71,7 +71,7 @@ public class dbConnection {
 			String sql = "";
 			sql += "select text from tweet_info where id in ";
 			sql += "(select tweet_id from poi_tweet where poi_id in ";
-			sql += "(select id from poi_info where name_nospace='"+searchText+"'))";
+			sql += "(select id from poi_info where name_nospace like '"+searchText+"%'))";
 			
 			pstmt = conn.prepareStatement(sql);
 
@@ -102,7 +102,7 @@ public class dbConnection {
 			String sql = "";
 			sql += "select url from photo_info where id in ";
 			sql += "(select photo_id from poi_photo where poi_id in ";
-			sql += "(select id from poi_info where name_nospace='"+searchText+"'))";
+			sql += "(select id from poi_info where name_nospace like '"+searchText+"%'))";
 			
 			pstmt = conn.prepareStatement(sql);
 
