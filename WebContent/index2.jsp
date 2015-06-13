@@ -14,7 +14,9 @@
 		searchText = request.getParameter("searchText");
 		mode = 1;
 		
-		ResourcePath.path = "/Users/galsang/Documents/eclipse/project/WebContent";
+		ResourcePath.path = "/usr/local/tomcat8/webapps/SNU_POI_web";
+		//ResourcePath.path = "/Users/galsang/Documents/eclipse/project/WebContent";
+		
 		List<Pair<String,Character>> results = POIFinder.getInstance().findPOI(searchText);
 		List<Quadruple<Integer,Integer,String,Character>> positions = POIFinder.getInstance().findPosition(results, searchText);
 		Collections.sort(positions);

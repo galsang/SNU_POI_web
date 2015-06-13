@@ -14,8 +14,9 @@ public class dbConnection {
 	public void connect() throws Exception {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://114.108.167.117:3306/snu_poi?useUnicode=true&characterEncoding=utf8","snu","2154");
-				
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/snu_poi?useUnicode=true&characterEncoding=utf8","snu","2154");
+			//conn = DriverManager.getConnection("jdbc:mysql://114.108.167.117:3306/snu_poi?useUnicode=true&characterEncoding=utf8","snu","2154");
+			
 			System.out.println("db connection opening...");
 		} catch (Exception e) {
 			System.out.println("db connection failed!");
