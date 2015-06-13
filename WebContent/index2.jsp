@@ -24,6 +24,7 @@
 		System.out.println("position : " + positions.size());
 		
 		searchCount = positions.size();
+		if(searchCount == 0) mode = 2;
 		int beforeEnd = 0;
 		for(int i=0;i<searchCount;i++){
 			int start = positions.get(i).first();
@@ -42,8 +43,6 @@
 		}
 		if(beforeEnd < searchText.length()) searchTextFiltered += searchText.substring(beforeEnd);
 	}
-
-	if(searchCount == 0) mode = 2;
 %>
 <!DOCTYPE HTML>
 <html>
