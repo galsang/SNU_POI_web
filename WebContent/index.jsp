@@ -71,8 +71,9 @@
 		<script src="galleria/galleria-1.4.2.min.js"></script>
 		
 		<!-- naver map open api -->
-		<script src="http://openapi.map.naver.com/openapi/naverMap.naver?ver=2.0&key=a4ef876ffe15ebf2304f6f7fee7ddfc4"></script>
-
+		<!-- script src="http://openapi.map.naver.com/openapi/naverMap.naver?ver=2.0&key=a4ef876ffe15ebf2304f6f7fee7ddfc4"></script-->
+		<script src="http://openapi.map.naver.com/openapi/naverMap.naver?ver=2.0&key=deade06ff1708cac35d1de66d33e63c6"></script>
+		
 		<script type="text/javascript">
 			$(document).ready(function(){
 				$('#searchBtn').click(function(){
