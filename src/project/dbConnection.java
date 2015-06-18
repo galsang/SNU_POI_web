@@ -61,24 +61,31 @@ public class dbConnection {
 		return result;
 	}
 	
-	public ArrayList<String> getTweets(String searchText) throws Exception {
+	public ArrayList<HashMap<String,String>> getTweets(String searchText) throws Exception {
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		ArrayList<String> result = new ArrayList<String>();
+		ArrayList<HashMap<String,String>> result = new ArrayList<HashMap<String,String>>();
 		
 		try {
 			String sql = "";
-			sql += "select text from tweet_info where id in ";
-			sql += "(select tweet_id from poi_tweet where poi_id in ";
-			sql += "(select id from poi_info where name_nospace like '"+searchText+"%'))";
-			
+			sql += "select U.screen_name, U.profile_url, T.text from tweet_info T join user_info U on T.user_id = U.id ";
+			sql += "join poi_tweet on T.id = poi_tweet.tweet_id ";
+			sql += "join poi_info on poi_tweet.poi_id = poi_info.id ";
+			sql += "where poi_info.name_nospace like '"+searchText+"%'";
+							
 			pstmt = conn.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
-				result.add(rs.getString("text"));
+				HashMap<String,String> temp = new HashMap<String,String>();
+				
+				temp.put("text", rs.getString("text"));
+				temp.put("profile_url", rs.getString("profile_url"));
+				temp.put("screen_name", rs.getString("screen_name"));
+				
+				result.add(temp);
 			}
 		}
 		catch(Exception e) {

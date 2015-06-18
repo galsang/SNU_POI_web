@@ -23,7 +23,7 @@
 	
 	String lat = "";
 	String lng = "";
-	ArrayList<String> tweets = new ArrayList<String>();
+	ArrayList<HashMap<String,String>> tweets = new ArrayList<HashMap<String,String>>();
 	ArrayList<String> photos = new ArrayList<String>();
 	ArrayList<String> reviews = new ArrayList<String>();
 	
@@ -44,14 +44,6 @@
 		
 		if(tweets.size()>0 || photos.size()>0 || reviews.size()>0 || validLocation==1) mode = 1; else mode = 2;
 	}
-	
-	//ArrayList<String> tweets = new ArrayList<String>();
-	//tweets.add("싫어하는 음료 3대장은요? — 1. 덴드요 벚꽃 크랜베리 2. 스타벅스 딸기 딜라이트 3. 씨그램 탄산수 http://ask.fm/a/c8glea0c");
-	//tweets.add("뮤지컬<유린타운> 퇴근길장소를 알려드립니다. 홍익대대학로아트센터 1층 로비에서 이루어집니다. (스타벅스있는로비에요) ♬(^0^)~♪");
-	
-	//ArrayList<String> photos = new ArrayList<String>();
-	//photos.add("http://upload.wikimedia.org/wikipedia/commons/5/5b/Ultraviolet_image_of_the_Cygnus_Loop_Nebula_crop.jpg");
-	//photos.add("http://t2.gstatic.com/images?q=tbn:ANd9GcToZGEWvIBFgCiona6d74FtVthl4lkdJg3d61SGy-UCf4qFuDLD");
 %>
 
 <!DOCTYPE HTML>
@@ -73,7 +65,7 @@
 		<script src="galleria/galleria-1.4.2.min.js"></script>
 		
 		<!-- naver map open api -->
-		<!-- script src="http://openapi.map.naver.com/openapi/naverMap.naver?ver=2.0&key=a4ef876ffe15ebf2304f6f7fee7ddfc4"></script-->
+		<!-- script src="http://openapi.map.naver.com/openapi/naverMap.naver?ver=2.0&key=a4ef876ffe15ebf2304f6f7fee7ddfc4"></script>-->
 		<script src="http://openapi.map.naver.com/openapi/naverMap.naver?ver=2.0&key=deade06ff1708cac35d1de66d33e63c6"></script>
 		
 		<script type="text/javascript">
@@ -180,7 +172,15 @@
   						<% if(tweets.size()>0) { %>
 	  						<% for(int i=0;i<tweets.size();i++) { %>
 	  						<div class="panel panel-default" style="padding: 5%">
-	  							<p><%= tweets.get(i) %></p>
+	  							<div class="row">
+		  							<div class="col-md-2">
+		  								<img class="thumbnail" width="58px" height="58px" src="<%= tweets.get(i).get("profile_url") %>"/>
+		  							</div>
+		  							<div class="col-md-10">
+		  								<span style="font-weight:bold; font-size:14px;"><%= tweets.get(i).get("screen_name") %></span>
+		  								<p><%= tweets.get(i).get("text") %></p>
+		  							</div>
+	  							</div>
 	  						</div>
 	  						<% } %>
   						<% } else { %>
