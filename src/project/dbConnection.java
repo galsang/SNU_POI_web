@@ -122,4 +122,35 @@ public class dbConnection {
 		
 		return result;
 	}
+	
+	public ArrayList<String> getReviews(String searchText) throws Exception {
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<String> result = new ArrayList<String>();
+		
+		try {
+			String sql = "";
+			sql += "select review from review_info where id in ";
+			sql += "(select review_id from poi_review where poi_id in ";
+			sql += "(select id from poi_info where name_nospace like '"+searchText+"%'))";
+			
+			pstmt = conn.prepareStatement(sql);
+
+			rs = pstmt.executeQuery();
+
+			while(rs.next()) {
+				result.add(rs.getString("review"));
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			if(rs != null) rs.close();
+			if(pstmt != null) pstmt.close(); 
+		}
+		
+		return result;
+	}
 }

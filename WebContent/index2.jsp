@@ -10,8 +10,10 @@
 	String searchTextFiltered = "";
 	
 	//parameter로 searchText가 들어왔는가에 따라 mode 결정
+	request.setCharacterEncoding("UTF-8");
 	if(request.getParameter("searchText")!=null){
 		searchText = request.getParameter("searchText");
+		System.out.println("searchText: "+ searchText);
 		mode = 1;
 		
 		ResourcePath.path = "/usr/local/tomcat8/webapps/SNU_POI_web";
@@ -21,9 +23,9 @@
 		List<Quadruple<Integer,Integer,String,Character>> positions = POIFinder.getInstance().findPosition(results, searchText);
 		Collections.sort(positions);
 		
-		System.out.println("searchText: "+ searchText);
-		System.out.println("result : " + results.size() + results);
-		System.out.println("position : " + positions.size());
+		//System.out.println("searchText: "+ searchText);
+		//System.out.println("result : " + results.size() + results);
+		//System.out.println("position : " + positions.size());
 		
 		searchCount = positions.size();
 		if(searchCount == 0) mode = 2;
@@ -133,7 +135,7 @@
 			<div>
 				<span style="font-size:30px;">문장을 입력하세요! POI를 찾아드립니다.</span>
 			</div>
-			<form id="searchForm" action="index2.jsp?" method="GET">
+			<form id="searchForm" action="index2.jsp?" method="POST">
 				<div style="margin-top:30px;">
 					<textarea name="searchText" rows="10" class="form-control" placeholder="문장을 입력하세요."><%= searchText %></textarea>
 					<button class="btn btn-info" aria-hidden="true" style="width: 30%; margin-top:20px;">Find!</button>

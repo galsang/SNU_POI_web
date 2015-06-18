@@ -25,6 +25,7 @@
 	String lng = "";
 	ArrayList<String> tweets = new ArrayList<String>();
 	ArrayList<String> photos = new ArrayList<String>();
+	ArrayList<String> reviews = new ArrayList<String>();
 	
 	if (mode==1) { 
 		dbConnection db = new dbConnection();
@@ -37,10 +38,11 @@
 		
 		tweets = db.getTweets(searchTextWithoutSpace);
 		photos = db.getPhotos(searchTextWithoutSpace);
+		reviews = db.getReviews(searchTextWithoutSpace);
 		
 		db.disconnect();
 		
-		if(tweets.size()>0 || photos.size()>0 || validLocation==1) mode = 1; else mode = 2;
+		if(tweets.size()>0 || photos.size()>0 || reviews.size()>0 || validLocation==1) mode = 1; else mode = 2;
 	}
 	
 	//ArrayList<String> tweets = new ArrayList<String>();
@@ -149,6 +151,24 @@
 						</div>
 						<% } %>
   					</div>
+				</div>
+				<div class="panel panel-default">
+  					<div class="panel-heading">
+    					<h3 class="panel-title">리뷰</h3>
+  					</div>
+  					<div class="panel-body">
+  						<% if(reviews.size()>0) { %>
+	  						<% for(int i=0;i<reviews.size();i++) { %>
+	  						<div class="panel panel-default" style="padding: 5%">
+	  							<p><%= reviews.get(i) %></p>
+	  						</div>
+	  						<% } %>
+  						<% } else { %>
+	  						<div>
+	  							죄송합니다. 리뷰가 존재하지 않습니다.
+	  						</div>
+  						<% } %>
+	  				</div>
 				</div>
 			</div>
 			<div class="col-md-6">
